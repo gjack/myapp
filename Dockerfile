@@ -1,0 +1,21 @@
+FROM ruby:2.7
+
+LABEL maintainer="gabi@gabijack.com"
+
+RUN curl https://deb.nodesource.com/setup_12.x | bash
+RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+nodejs \
+yarn \
+&& rm -rf /var/lib/apt/lists/*
+
+WORKDIR /usr/src/app
+COPY Gemfile* /usr/src/app
+
+RUN bundle install
+
+COPY . /usr/src/app
+
+CMD ["bin/rails", "s", "-b", "0.0.0.0"]
