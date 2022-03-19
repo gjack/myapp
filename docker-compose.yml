@@ -5,8 +5,9 @@ services:
     build: .
     ports:
       - "3000:3000"
-    environment:
-      WEBPACKER_DEV_SERVER_HOST: webpack
+    env_file:
+      - .env/development/database
+      - .env/development/web
     depends_on:
       - webpack
     volumes:
@@ -26,3 +27,13 @@ services:
 
   redis:
     image: redis
+
+  database:
+    image: postgres
+    env_file:
+      - .env/development/database
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
