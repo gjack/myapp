@@ -8,6 +8,8 @@ services:
     env_file:
       - .env/development/database
       - .env/development/web
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack
     depends_on:
       - webpack
     volumes:
@@ -15,15 +17,16 @@ services:
   
   webpack:
     build: .
-    command: bundle exec bin/webpack-dev-server
+    command: ./bin/webpack-dev-server
     volumes:
       - .:/usr/src/app
     ports:
       - '3035:3035'
+    env_file:
+      - .env/development/database
+      - .env/development/web
     environment:
-      NODE_ENV: development
-      RAILS_ENV: development
-      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
   redis:
     image: redis
