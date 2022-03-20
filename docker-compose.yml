@@ -14,12 +14,14 @@ services:
       - webpack
     volumes:
       - .:/usr/src/app:cached
+      - gem_cache:/gems
   
   webpack:
     build: .
     command: ./bin/webpack-dev-server
     volumes:
       - .:/usr/src/app
+      - gem_cache:/gems
     ports:
       - '3035:3035'
     env_file:
@@ -40,3 +42,4 @@ services:
 
 volumes:
   db_data:
+  gem_cache:
