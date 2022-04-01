@@ -16,12 +16,12 @@ yarn \
 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
-COPY Gemfile* /usr/src/app
+COPY Gemfile* /usr/src/app/
 
 ENV BUNDLE_PATH /gems
 RUN bundle install
 
-COPY . /usr/src/app
+COPY . /usr/src/app/
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
