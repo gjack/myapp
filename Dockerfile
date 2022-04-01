@@ -28,8 +28,6 @@ RUN ["chmod", "+x", "/usr/src/app/wait-for"]
 
 RUN bin/rails assets:precompile
 
-RUN bin/rails db:migrate
-
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
 CMD ["bin/rails", "s", "-b", "0.0.0.0"]
