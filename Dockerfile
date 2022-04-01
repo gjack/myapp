@@ -11,6 +11,7 @@ RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+netcat \
 nodejs \
 yarn \
 && rm -rf /var/lib/apt/lists/*
@@ -22,6 +23,12 @@ ENV BUNDLE_PATH /gems
 RUN bundle install
 
 COPY . /usr/src/app/
+
+RUN ["chmod", "+x", "/usr/src/app/wait-for"]
+
+RUN bin/rails assets:precompile
+
+RUN bin/rails db:migrate
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
